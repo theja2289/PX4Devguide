@@ -6,11 +6,14 @@
 
 ## Quick Summary
 
-  * System-on-Chip: [STM32F437](http://www.st.com/web/en/catalog/mmc/FM141/SC1169/SS1577/LN1789)
+  * Main System-on-Chip: [STM32F437](http://www.st.com/web/en/catalog/mmc/FM141/SC1169/SS1577/LN1789)
     * CPU: 180 MHz ARM Cortex M4 with single-precision FPU
     * RAM: 256 KB SRAM (L1)
+  * Failsafe System-on-Chip: STM32F100
+    * CPU: 24 MHz ARM Cortex M3
+    * RAM: 8 KB SRAM
   * Wifi: ESP8266 external
-  * GPS: U-Blox 7 (Hobbyking) / U-Blox 6 (3D Robotics)
+  * GPS: U-Blox 7/8 (Hobbyking) / U-Blox 6 (3D Robotics)
   * Optical flow: [PX4 Flow unit](http://www.hobbyking.com/hobbyking/store/__66308__HK_Pilot32_Optical_Flow_Kit_With_Sonar.html)
   * Availability:
     * [Hobbyking EU version (433 MHz)](http://www.hobbyking.com/hobbyking/store/__80554__HKPilot32_Autonomous_Vehicle_32Bit_Control_Set_with_Telemetry_and_GPS_433Mhz_.html)
