@@ -1,6 +1,6 @@
 # Gazebo Simulation
 
-[Gazebo](http://gazebosim.org) is a 3D simulation environment for autonomous robots. It can be used with [ROS as complete robotics simulation suite](https://pixhawk.org/dev/ros/sitl) or standalone, and this guide covers the simpler to set up standalone operation.
+[Gazebo](http://gazebosim.org) is a 3D simulation environment for autonomous robots. It can be used with ROS as complete robotics simulation suite or standalone, and this guide covers the simpler to set up standalone operation.
 
 {% youtube %}https://www.youtube.com/watch?v=qfFF9-0k4KA&vq=hd720{% endyoutube %}
 
@@ -17,7 +17,7 @@ graph LR;
 The installation requires to install Gazebo and our simulation plugin.
 
 <aside class="tip">
-Mac OS users should install gazebo 7. Linux users: If you installed a ROS version earlier than Jade, be sure to uninstall the bundled Gazebo (sudo apt-get remove ros-indigo-gazebo) version as it is too old. Linux users should install gazebo 6.
+Gazebo version 6 should be used. Linux users: If you installed a ROS version earlier than Jade, be sure to uninstall the bundled Gazebo (sudo apt-get remove ros-indigo-gazebo) version as it is too old.
 </aside>
 
 ### Mac OS
@@ -27,8 +27,7 @@ Mac OS requires Gazebo 6.
 <div class="host-code"></div>
 
 ```sh
-# dependencies were already installed during the initial install
-brew install opencv gazebo6
+brew install gazebo6
 ```
 
 ### Linux
@@ -45,7 +44,7 @@ Follow the [Linux installation instructions](http://gazebosim.org/tutorials?tut=
 
 ## Running the Simulation
 
-Run the PX4 SITL with one of the airframes (Quads, planes and VTOL are supported, including optical flow):
+From within the source directory of the PX4 Firmware run the PX4 SITL with one of the airframes (Quads, planes and VTOL are supported, including optical flow):
 
 ### Quadrotor
 
@@ -83,13 +82,17 @@ cd ~/src/Firmware
 make posix_sitl_default gazebo_tailsitter
 ```
 
+<aside class="tip">
+Make sure you followed the [Installing Files and Code](http://dev.px4.io/starting-installing-mac.html) guide appropiate for your OS if you run into any errors or missing dependencies.
+<aside>
+
 This will bring up the PX4 shell:
 
 ```sh
 [init] shell id: 140735313310464
 [init] task name: mainapp
 
-______  __   __    ___ 
+______  __   __    ___
 | ___ \ \ \ / /   /   |
 | |_/ /  \ V /   / /| |
 |  __/   /   \  / /_| |
