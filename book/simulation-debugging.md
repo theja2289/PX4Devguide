@@ -10,6 +10,7 @@ The Clang address sanitizer can help to find alignment (bus) errors and other me
 <div class="host-code"></div>
 
 ```sh
+make clean # only required on first address sanitizer run after a normal build
 MEMORY_DEBUG=1 make posix jmavsim
 ```
 
