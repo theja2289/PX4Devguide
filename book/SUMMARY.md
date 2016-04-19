@@ -85,4 +85,5 @@ This is the summary of the PX4 dev guide.
     * [Camera and optical flow](advanced-snapdragon_camera.md)
   * [Installing driver for Intel RealSense R200](advanced-realsense_intel.md)
   * [Gimbal Control Setup](advanced-gimbal-control.md)
+  * [Switching State Estimators](advanced-switching_state_estimators.md)
   * [Licenses](advanced-licenses.md)
