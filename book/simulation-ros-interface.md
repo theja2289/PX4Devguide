@@ -38,13 +38,33 @@ sudo apt-get install ros-indigo-gazebo6-plugins
 
 ## Launching Gazebo with ROS wrappers
 
-In case you would like to modify the Gazebo simulation to integrate sensors publishing directly to ROS topics e.g. the Gazebo ROS laser plugin, Gazebo must be launched with the appropriate ROS wrappers. To do this start the simulator with `no_sim=1`:
+In case you would like to modify the Gazebo simulation to integrate sensors publishing directly to ROS topics e.g. the Gazebo ROS laser plugin, Gazebo must be launched with the appropriate ROS wrappers.
+
+There are ROS launch scripts available to run the simulation wrapped in ROS:
+
+  * [posix_sitl.launch](https://github.com/PX4/Firmware/blob/master/launch/posix_sitl.launch): plain SITL launch
+  * [mavros_posix_sitl.launch](https://github.com/PX4/Firmware/blob/master/launch/mavros_posix_sitl.launch): SITL and MAVROS
+
+To run SITL wrapped in ROS the ROS environment needs to be updated, then launch as usual:
+
+```sh
+cd <Firmware_clone>
+source integrationtests/setup_gazebo_ros.bash $(pwd)
+roslaunch px4 posix_sitl.launch
+```
+
+Include one of the above mentioned launch files in your own launch file to run your ROS application in the simulation.
+
+### What's happening behind the scenes
+
+(or how to run it manually)
 
 ```sh
 no_sim=1 make posix_sitl_default gazebo
 ```
 
 This should start the simulator and the console will look like this
+
 
 ```sh
 [init] shell id: 46979166467136
@@ -72,18 +92,12 @@ INFO  Waiting for initial data on UDP. Please start the flight simulator to proc
 Now in a new terminal make sure you will be able to insert the Iris model through the Gazebo menus, to do this set your environment variables to include the appropriate `sitl_gazebo` folders.
 
 ```sh
-# Set the plugin path so Gazebo finds our model and sim
-export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:[PATH_TO_FIRMWARE]/Firmware/Tools/sitl_gazebo/Build
-# Set the model path so Gazebo finds the airframes
-export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:[PATH_TO_FIRMWARE]/Firmware/Tools/sitl_gazebo/models
+cd <Firmware_clone>
+source integrationtests/setup_gazebo_ros.bash $(pwd)
 ```
 
 Now start Gazebo like you would when working with ROS and insert the Iris quadcopter model. Once the Iris is loaded it will automatically connect to the px4 app.
-```sh
-roslaunch gazebo_ros empty_world.launch
-```
 
-Once the simulation has started, an Iris model can either be added manually via the GUI or programmatically like so:
 ```sh
-rosrun gazebo_ros spawn_model -file iris.sdf -sdf -model iris
+roslaunch gazebo_ros empty_world.launch world_name:=$(pwd)/Tools/sitl_gazebo/worlds/iris.world
 ```

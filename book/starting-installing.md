@@ -10,4 +10,6 @@ The installation of the development environment is covered below:
   * [Linux](starting-installing-linux.md)
   * [Windows](starting-installing-windows.md)
 
+If you're familiar with Docker you can also use one of the prepared containers: [Docker Containers](advanced-docker.md)
+
 Once finished, continue to the [build instructions](starting-building.md).

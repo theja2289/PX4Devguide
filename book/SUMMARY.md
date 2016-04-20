@@ -28,6 +28,7 @@ This is the summary of the PX4 dev guide.
   * [Gazebo Simulation](simulation-gazebo.md)
   * [HITL Simulation](simulation-hitl.md)
   * [Interfacing to ROS](simulation-ros-interface.md)
+  * [Testing](simulation-testing.md)
 * Autopilot Hardware
   * [Snapdragon Flight](hardware-snapdragon.md)
   * [Raspberry Pi 2](hardware-pi2.md)
@@ -86,4 +87,6 @@ This is the summary of the PX4 dev guide.
   * [Installing driver for Intel RealSense R200](advanced-realsense_intel.md)
   * [Gimbal Control Setup](advanced-gimbal-control.md)
   * [Switching State Estimators](advanced-switching_state_estimators.md)
+  * [Docker Containers](advanced-docker.md)
+  * [Jenkins Continuous Integration](advanced-jenkins-ci.md)
   * [Licenses](advanced-licenses.md)
