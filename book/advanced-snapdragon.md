@@ -75,7 +75,7 @@ On P1 boards, it is normal that the partitions `recovery`, `update`, and `factor
 
 Part of the PX4 stack is running on the ADSP (the DSP side of the Snapdragon 8074). The underlying operating system QURT needs to be updated separately.
 
-<aside class="caution">If anything goes wrong during the ADSP firmware update, your Snapdragon can get bricked! Follow the steps below carefully which should prevent bricking for in most cases.</aside>
+<aside class="caution">If anything goes wrong during the ADSP firmware update, your Snapdragon can get bricked! Follow the steps below carefully which should prevent bricking in most cases.</aside>
 
 First of all, if you're not already on BSP 3.0, [upgrade the Linux image](#upgradingreplacing-the-linux-image)!
 
