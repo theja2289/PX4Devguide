@@ -58,6 +58,18 @@ pxh> commander takeoff
 Joystick or thumb-joystick support is available through QGroundControl (QGC). To use manual input, put the system in a manual flight mode (e.g. POSCTL, position control). Enable the thumb joystick from the QGC preferences menu.
 </aside>
 
+## Simulating a Wifi Drone
+
+There is a special target to simulate a drone connected via Wifi on the local network:
+
+<div class="host-code"></div>
+
+```sh
+make broadcast jmavsim
+```
+
+The simulator broadcasts his address on the local network as a real drone would do.
+
 ## Extending and Customizing
 
 To extend or customize the simulation interface, edit the files in the `Tools/jMAVSim` folder. The code can be accessed through the[jMAVSim repository](https://github.com/px4/jMAVSim) on Github.

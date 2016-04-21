@@ -86,13 +86,13 @@ The convention for firmware image names is:
 
 However, due to space/performance constraints (names may not exceed 28 charates), the UAVCAN firmware updater requires those filenames to be split and stored in a directory structure like the following:
 
-  ```/fs/microsd/fw/<node name>/<hw version major>.<hw version minor>/<hw name>-<hw version major>.<hw version minor>.<git hash>.bin```
+  ```/fs/microsd/fw/<node name>/<hw version major>.<hw version minor>/<hw name>-<sw version major>.<sw version minor>.<git hash>.bin```
 
  e.g. ```s2740vc-v1-1.0.68e34de6.bin```
 
 The ROMFS-based updater follows that pattern, but prepends the file name with ```_``` so you add the firmware in:
 
-  ```/etc/uavcan/fw/<device name>/<hw version major>.<hw version minor>/_<hw name>-<hw version major>.<hw version minor>.<git hash>.bin```
+  ```/etc/uavcan/fw/<device name>/<hw version major>.<hw version minor>/_<hw name>-<sw version major>.<sw version minor>.<git hash>.bin```
 
 ## Placing the binaries in the PX4 ROMFS
 

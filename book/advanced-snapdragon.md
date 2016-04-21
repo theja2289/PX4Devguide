@@ -1,5 +1,149 @@
 # Snapdragon Advanced
 
+## Connect to Snapdragon
+
+### Over FTDI
+
+Connect the small debug header shipped with the Snapdragon and the FTDI cable.
+
+On Linux, open a console using:
+
+```
+screen /dev/ttyUSB0 115200
+```
+
+Change USB0 to whatever it happens to be. Check `/dev/` or `/dev/serial/by-id`.
+
+
+### Over ADB (Android Debug Bridge)
+
+Connect the Snapdragon over USB2.0 and power it up using the power module.
+When the Snapdragon is running the, the LED will be slowly blinking (breathing) in blue.
+
+Make sure the board can be found using adb:
+
+```
+adb devices
+```
+
+If you cannot see the device, it is most likely a USB device permission issue. Follow the instructions
+
+To get a shell, do:
+
+```
+adb shell
+```
+
+## Upgrade Snapdragon
+
+For this step the Flight_BSP zip file from Intrynsic is required. It can be obtained after registering using the board serial.
+
+### Upgrading/replacing the Linux image
+
+<aside class="caution">Flashing the Linux image will erase everything on the Snapdragon. Back up your work before you perform this step!</aside>
+
+Make sure the board can be found using adb:
+
+```
+adb devices
+```
+
+Then, reboot it into the fastboot bootloader:
+
+```
+adb reboot bootloader
+```
+
+Make sure the board can be found using fastboot:
+
+```
+fastboot devices
+```
+
+Download the latest BSP from Intrinsyc:
+
+```
+unzip Flight_BSP_3.0_apq8074-le-1-0_r00015.zip
+cd Flight_3.0_apq8074-le-1-0_ap_standard_oem_r00015/Flight_3.0_apq8074-le-1-0_ap_standard_oem_r00015/binaries/Flight_BSP_3.0
+chmod +x fastboot-all.sh
+./fastboot-all.sh
+```
+
+On P1 boards, it is normal that the partitions `recovery`, `update`, and `factory` will fail.
+
+### Updating the ADSP firmware
+
+Part of the PX4 stack is running on the ADSP (the DSP side of the Snapdragon 8074). The underlying operating system QURT needs to be updated separately.
+
+<aside class="caution">If anything goes wrong during the ADSP firmware update, your Snapdragon can get bricked! Follow the steps below carefully which should prevent bricking in most cases.</aside>
+
+First of all, if you're not already on BSP 3.0, [upgrade the Linux image](#upgradingreplacing-the-linux-image)!
+
+#### Prevent bricking
+
+To prevent the system from hanging on boot because of anything wrong with the ADSP firmware, do the following changes before updating:
+
+Edit the file directly on the Snapdragon over `screen` or `adb shell`:
+```sh
+vim /usr/local/qr-linux/q6-admin.sh
+```
+
+Or load the file locally and edit it there with the editor of your choice:
+
+To do this, load the file locally:
+```sh
+adb pull /usr/local/qr-linux/q6-admin.sh
+```
+
+Edit it:
+
+```sh
+gedit q6-admin.sh
+```
+
+And push it back:
+
+```sh
+adb push q6-admin.sh /usr/local/qr-linux/q6-admin.sh
+```
+
+Comment out the while loops causing boot to hang:
+
+```
+# Wait for adsp.mdt to show up
+#while [ ! -s /lib/firmware/adsp.mdt ]; do
+#  sleep 0.1
+#done
+```
+
+and:
+
+```
+# Don't leave until ADSP is up
+#while [ "`cat /sys/kernel/debug/msm_subsys/adsp`" != "2" ]; do
+#  sleep 0.1
+#done
+```
+
+#### Push the latest ADSP firmware files
+
+Download the file Flight_adsp_8074_firmware.zip from Intrinsyc.
+
+And copy them on to the Snapdragon:
+
+```
+unzip Flight_adsp_8074_firmware.zip -d Flight_adsp_8074_firmware
+cd Flight_adsp_8074_firmware
+adb push . /lib/firmware
+```
+
+Then do a graceful reboot, so that the firmware gets applied:
+
+```
+adb reboot
+```
+
+
 ## Serial ports
 
 ### Use serial ports
@@ -48,15 +192,20 @@ Then configure station mode:
 reboot
 ```
 
-## Update Android/Linux image
 
-For this step the Flight_BSP zip file from Intrynsic is required. It can be obtained after registering using the board serial.
+## Troubleshooting
 
-### Setting up permissions
+### adb does not work
 
-This step is only required once.
+- Check [permissions](#usb-permissions)
+- Make sure you are using a working Micro-USB cable.
+- Try a USB 2.0 port.
+- Try front and back ports of your computer.
 
-#### 1) Create a new permissions file
+
+### USB permissions
+
+1) Create a new permissions file
 
 ```
 sudo -i gedit /etc/udev/rules.d/51-android.rules
@@ -112,43 +261,8 @@ sudo service udev restart
 sudo udevadm trigger
 ```
 
-### Upgrading the board image
+If it still doesn't work, check [this answer on StackOverflow](http://askubuntu.com/questions/461729/ubuntu-is-not-detecting-my-android-device#answer-644222).
 
-Make sure the board can be found using adb:
-
-```
-adb devices
-```
-
-Then, reboot it into the fastboot bootloader:
-
-```
-adb reboot bootloader
-```
-
-Make sure the board can be found using fastboot:
-
-```
-fastboot devices
-```
-
-
-```
-unzip Flight_BSP_2.0_CS1.0.zip
-cd Flight_BSP_2.0_CS1.0/Images/
-chmod +x fastboot-all.sh
-./fastboot-all.sh
-```
-
-
-## Troubleshooting
-
-### adb does not work
-
-- Make sure you are using a working Micro-USB cable.
-- Try a USB 2.0 port.
-- Try front and back ports of your computer.
-- Make sure you have the permissions correctly set up (check [this answer on StackOverflow](http://askubuntu.com/questions/461729/ubuntu-is-not-detecting-my-android-device#answer-644222)).
 
 ### Board doesn't start / is boot-looping / is bricked
 
@@ -178,13 +292,16 @@ To check if it's in fastboot mode, use:
 fastboot devices
 ```
 
-Once you managed to get into fastboot mode, you can try [above teps](#update-androidlinux-image) to update the Android/Linux image.
+Once you managed to get into fastboot mode, you can try [above teps](#upgradingreplacing-the-linux-image) to update the Android/Linux image.
 
-If you are unable to get into fastboot mode using the console or adb, you probably need to request request help from intrinsyc.
+If you happen to have a [P2 board](#do-i-have-a-p1-or-p2-board), you should be able to reset the Snapdragon to the recovery image by starting up the Snapdragon while shorting the two pins next to where J3 is written (The two rectangular pins in-between the corner hole and the MicroSD card slot almost at the edge of the board.
+
+If everything fails, you probably need to request help from intrinsyc.
+
 
 ### No space left on device
 
-Sometimes ```make ***-load``` fails to upload:
+Sometimes `make eagle_default upload` fails to upload:
 
 ```
 failed to copy 'mainapp' to '/home/linaro/mainapp': No space left on device
@@ -195,6 +312,33 @@ This can happen if ramdumps fill up the disk. To clean up, do:
 ```
 rm -rf /var/log/ramdump/*
 ```
+
+Also, the logs might have filled the space. To delete them, do:
+
+```
+rm -rf /root/logs/*
+```
+
+### Undefined PLT symbol
+
+#### _FDtest
+
+If you see the following output on mini-dm when trying to start the mainapp, it means that you need to [update the ADSP firmware](#updating-the-adsp-firmware):
+
+```
+[08500/03]  05:10.960  HAP:45:undefined PLT symbol _FDtest (689) /libpx4muorb_skel.so  0303  symbol.c
+```
+
+#### Something else
+
+If you have changed the source, presumably added functions and you see `undefined PLT symbol ...` it means that the linking has failed.
+
+- Do the declaration and definition of your function match one to one?
+- Is your code actually getting compiled?
+Is the module listed in the [cmake config](https://github.com/PX4/Firmware/blob/master/cmake/configs/qurt_eagle_default.cmake)?
+- Is the (added) file included in the `CMakeLists.txt`?
+- Try adding it to the POSIX build and running the compilation. The POSIX linker will inform you about linking errors at compile/linking time.
+
 
 ### ADSP restarts
 
@@ -241,3 +385,18 @@ The mini-dm console output typically looks like this:
 [08500/02]  20:32.548  HAP:76:cannot find /voiceproc_tx.so  0141  load.c
 [08500/02]  20:32.550  HAP:76:cannot find /voiceproc_rx.so  0141  load.c
 ```
+
+### Do I have a P1 or P2 board?
+
+The silkscreen on the Snapdragon reads something like:
+
+```
+1DN14-25-
+H9550-P1
+REV A
+QUALCOMM
+```
+
+The P1 of the second line is key.
+
+<aside class="note">P1 boards don't have a factory partition/image and therefore can't be restored to factory state.</aside>
