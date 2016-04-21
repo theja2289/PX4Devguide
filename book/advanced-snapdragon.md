@@ -38,7 +38,7 @@ adb shell
 
 For this step the Flight_BSP zip file from Intrynsic is required. It can be obtained after registering using the board serial.
 
-### Upgrading (replacing) the Linux image
+### Upgrading/replacing the Linux image
 
 <aside class="caution">Flashing the Linux image will erase everything on the Snapdragon. Back up your work before you perform this step!</aside>
 
@@ -77,7 +77,7 @@ Part of the PX4 stack is running on the ADSP (the DSP side of the Snapdragon 807
 
 <aside class="caution">If anything goes wrong during the ADSP firmware update, your Snapdragon can get bricked! Follow the steps below carefully which should prevent bricking for in most cases.</aside>
 
-First of all, [upgrade the Linux image](#upgrading--replacing--the-linux-image)!
+First of all, [upgrade the Linux image](#upgradingreplacing-the-linux-image)!
 
 #### Prevent bricking
 
@@ -292,7 +292,7 @@ To check if it's in fastboot mode, use:
 fastboot devices
 ```
 
-Once you managed to get into fastboot mode, you can try [above teps](#upgrading--replacing--the-linux-image) to update the Android/Linux image.
+Once you managed to get into fastboot mode, you can try [above teps](#upgradingreplacing-the-linux-image) to update the Android/Linux image.
 
 If you happen to have a [P2 board](#do-i-have-a-p1-or-p2-board), you should be able to reset the Snapdragon to the recovery image by starting up the Snapdragon while shorting the two pins next to where J3 is written (The two rectangular pins in-between the corner hole and the MicroSD card slot almost at the edge of the board.
 
