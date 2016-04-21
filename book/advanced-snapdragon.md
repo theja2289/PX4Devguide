@@ -399,4 +399,4 @@ QUALCOMM
 
 The P1 of the second line is key.
 
-<aside class="note">P1 boards don't have a recovery image and cannot be.</aside>
+<aside class="note">P1 boards don't have a factory partition/image and therefore can't be restored to factory state.</aside>
