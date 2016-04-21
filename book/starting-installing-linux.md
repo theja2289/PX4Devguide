@@ -136,64 +136,8 @@ Load the new configuration:
 ```sh
 source ~/.bashrc
 ```
-
-Now copy the latest adsp image to the board:
-
-<aside class="note">
-Before pushing the latest static image, make sure you are using an up-to-date BSP. Check the [advanced Snapdragon page](http://dev.px4.io/advanced-snapdragon.html#update-androidlinux-image) on how to do that.
-</aside>
-
-<aside class="note">
-There is a HIGH CHANCE of bricking your board due to incompatible BSP / aDSP static image combinations. Make sure you have your work backed up. Make the change below NOW to prevent mishaps.
-</aside>
-
-On the Flight board, edit ```/etc/init/q6.conf``` script and comment out the line below which, if left in place, can cause the board to stall forever during the boot up process if the ADSP image loader fails to start. On P1 generation boards, this can cause a semi-permanent brick with no way to recover without a special tool. This is the line to comment or remove:
-
-```sh
-# watch -n 1 --precise -g grep -m 1 "2" /sys/kernel/debug/msm_subsys/adsp && true
-```
-
-To do this, load the file locally:
-```sh
-adb pull /etc/init/q6.conf
-```
-
-Edit it:
-
-```sh
-gedit q6.conf
-```
-
-And push it back:
-
-```sh
-adb push q6.conf /etc/init/q6.conf
-```
-
-Make sure, adb can access the device:
-
-<aside class="note">
-Power the board through the external power and connect the USB cable, the indicator LED should be blue and heart-beating.
-</aside>
-
-<div class="host-code"></div>
-
-```sh
-adb devices
-```
-
-If the device does not show up, check the [troubleshooting page](advanced-snapdragon.md#adb-does-not-work).
-
-<div class="host-code"></div>
-
-```sh
-unzip qcom_flight_controller_hexagon_sdk_add_on.zip
-adb push images/8074-eagle/normal/adsp_proc/obj/qdsp6v5_ReleaseG/LA/system/etc/firmware/ /lib/firmware
-```
-
-If adb is not working
-
-Reboot the Snapdragon by power-cycling it. Now continue with [building and loading](starting-building.md) the code.
+#### Update ADSP firmware
+Before building, flashing and running code, you'll need to update the [ADSP firmware](advanced-snapdragon.html#updating-the-adsp-firmware).
 
 #### References
 
