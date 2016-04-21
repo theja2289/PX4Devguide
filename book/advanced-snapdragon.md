@@ -77,7 +77,7 @@ Part of the PX4 stack is running on the ADSP (the DSP side of the Snapdragon 807
 
 <aside class="caution">If anything goes wrong during the ADSP firmware update, your Snapdragon can get bricked! Follow the steps below carefully which should prevent bricking for in most cases.</aside>
 
-First of all, [upgrade the Linux image](#upgradingreplacing-the-linux-image)!
+First of all, if you're not already on BSP 3.0, [upgrade the Linux image](#upgradingreplacing-the-linux-image)!
 
 #### Prevent bricking
 
