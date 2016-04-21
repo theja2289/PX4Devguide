@@ -23,12 +23,12 @@ This is the summary of the PX4 dev guide.
   * [Writing an Application](tutorial-hello-sky.md)
   * [Video streaming in QGC](advanced-videostreaming-qgc.md)
   * [Optical flow and LIDAR-Lite](flow_lidar_inav_setup.md)
+  * [Integration Testing](tutorial-integration-testing.md)
 * Simulation
   * [Basic Simulation](simulation-sitl.md)
   * [Gazebo Simulation](simulation-gazebo.md)
   * [HITL Simulation](simulation-hitl.md)
   * [Interfacing to ROS](simulation-ros-interface.md)
-  * [Testing](simulation-testing.md)
 * Autopilot Hardware
   * [Snapdragon Flight](hardware-snapdragon.md)
   * [Raspberry Pi 2](hardware-pi2.md)

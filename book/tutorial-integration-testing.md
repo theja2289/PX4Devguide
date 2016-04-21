@@ -1,12 +1,18 @@
-# SITL Testing
+# Integration Testing
 
 This is about end to end integration testing. Tests are executed automatically ([Jenkins CI](advanced-jenkins-ci.md))
 
 ## ROS / MAVROS Tests
 
-Prerequisites: [ROS and MAVROS installation](simulation-ros-interface.md)
+Prerequisites:
 
-Run the complete MAVROS test suite:
+  * [SITL Simulation](simulation-sitl.md)
+  * [Gazebo](simulation-gazebo.md)
+  * [ROS and MAVROS](simulation-ros-interface.md)
+
+### Execute Tests
+
+To run the complete MAVROS test suite:
 
 ```sh
 cd <Firmware_clone>
