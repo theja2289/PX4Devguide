@@ -85,13 +85,13 @@ sudo add-apt-repository ppa:phablet-team/tools && sudo apt-get update -y
 sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf android-tools-adb android-tools-fastboot fakechroot fakeroot -y
 ```
 
-Developers working on Snapdragon Flight should request the Hexagon 7.2.10 Linux toolchain and the Hexagon 2.0 SDK for Linux from [here](https://developer.qualcomm.com/software/hexagon-dsp-sdk/tool-request) and execute the commands below. The installation guide will come up, leave everything at default by just continuing to press enter.
+The installation guide will come up, leave everything at default by just continuing to press enter.
 
 <aside class="tip">
-If you are part of ETH Zurich contact the maintainer for information about access to the SDK files instead.
+Developers working on Snapdragon Flight should request the Hexagon 7.2.10 Linux toolchain and the Hexagon 2.0 SDK for Linux from [here](https://developer.qualcomm.com/software/hexagon-dsp-sdk/tool-request).
 </aside>
 
-After downloading the Hexagon SDK and Hexagon Toolchain, clone this repository:
+After downloading the Hexagon SDK and Hexagon Toolchain through the process above, clone this repository:
 
 <div class="host-code"></div>
 
