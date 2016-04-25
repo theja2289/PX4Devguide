@@ -126,6 +126,8 @@ pxh>
 
 ### QuRT / Snapdragon based boards
 
+#### Build it
+
 The commands below build the targets for the Linux and the DSP side. Both executables communicate via [muORB](advanced-uorb.md).
 
 <div class="host-code"></div>
@@ -152,7 +154,7 @@ make eagle_default upload
 ```
 
 <aside class="note">
-Note that this will also copy (and overwrite) the two config files [mainapp.config](https://github.com/PX4/Firmware/blob/master/posix-configs/eagle/flight/mainapp.config) and [px4.config](https://github.com/PX4/Firmware/blob/master/posix-configs/eagle/flight/px4.config) to the device. Those files are stored under /usr/share/data/adsp/px4.config and /home/linaro/mainapp.config respectively if you want to edit the startup scripts directly on your vehicle. 
+Note that this will also copy (and overwrite) the two config files [mainapp.config](https://github.com/PX4/Firmware/blob/master/posix-configs/eagle/flight/mainapp.config) and [px4.config](https://github.com/PX4/Firmware/blob/master/posix-configs/eagle/flight/px4.config) to the device. Those files are stored under /usr/share/data/adsp/px4.config and /home/linaro/mainapp.config respectively if you want to edit the startup scripts directly on your vehicle.
 </aside>
 
 The mixer currently needs to be copied manually:
@@ -162,6 +164,8 @@ The mixer currently needs to be copied manually:
 ```
 adb push ROMFS/px4fmu_common/mixers/quad_x.main.mix  /usr/share/data/adsp
 ```
+
+#### Run it
 
 Run the DSP debug monitor:
 
@@ -176,6 +180,48 @@ Go back to ADB shell and run mainapp:
 ```sh
 cd /home/linaro
 ./mainapp mainapp.config
+```
+
+Note that the mainapp will stop as soon as you disconnect the USB cable (or if you ssh session is disconnected). To fly, you should make the mainapp auto-start after boot.
+
+#### Auto-start mainapp
+
+To run the mainapp as soon as the Snapdragon has booted, you can add the startup to `rc.local`:
+
+Either edit the file `/etc/rc.local` directly on the Snapdragon:
+
+```sh
+adb shell
+vim /etc/rc.local
+```
+
+Or copy the file to your computer, edit it locally, and copy it back:
+
+```sh
+adb pull /etc/rc.local
+gedit rc.local
+adb push rc.local /etc/rc.local
+```
+
+For the auto-start, add the following line before `exit 0`:
+
+```
+(cd /home/linaro && ./mainapp mainapp.config > mainapp.log)
+
+exit 0
+```
+
+Make sure that the `rc.local` is executable:
+
+```
+adb shell
+chmod +x /etc/rc.local
+```
+
+Then reboot the Snapdragon:
+
+```
+adb reboot
 ```
 
 ## Compiling in a graphical IDE
