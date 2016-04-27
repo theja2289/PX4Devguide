@@ -105,14 +105,16 @@ Now move the following files in the download folder of the cross toolchain as fo
 
 ```sh
 mv qualcomm_hexagon_sdk_2_0_eval.bin cross_toolchain/downloads
-mv Hexagon.LNX.7.2 Installer-07210.1.tar cross_toolchain/downloads
+mv Hexagon.LNX.7.2\ Installer-07210.1.tar cross_toolchain/downloads
+cd cross_toolchain/downloads
+tar -xf Hexagon.LNX.7.2\ Installer-07210.1.tar
 ```
 Install the toolchain and SDK like this:
 
 <div class="host-code"></div>
 
 ```sh
-cd cross_toolchain
+cd ../
 ./install.sh
 ```
 
