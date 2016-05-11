@@ -12,6 +12,7 @@ benefit from this feature and how to correctly deploy it.
 * set the parameter **SDLOG_PRIO_BOOST** to a value contained in the set {0, 1, 2, 3}. A value of 0 means that the onboard logging app has a default (low) scheduling priority.
 A low scheduling priority can lead to a loss of logging messages. If you find that your log file contains 'gaps' due to skipped messages then you can increase
 this parameter to a maximum value of 3. Testing has shown that a minimum value of 2 is required in order to avoid loss of data.
+* You may need to format the SD card just before you want to record the log file.
 
 ## Deployment
 Once you have a real flight log then you can run a replay on it by using the following command in the root directory of your PX4 Firmware
