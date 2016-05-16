@@ -65,7 +65,7 @@ sudo apt-get install python-serial openocd \
     python-empy gcc-arm-none-eabi -y
 ```
 
-If the resulting `gcc-arm-none-eabi` version produces build errors for PX4/Firmware master, please refer to [the bare metal installation instructions](http://dev.px4.io/starting-installing-linux-boutique.html#Toolchain Installation) to install version 4.8 manually.
+If the resulting `gcc-arm-none-eabi` version produces build errors for PX4/Firmware master, please refer to [the bare metal installation instructions](http://dev.px4.io/starting-installing-linux-boutique.html#toolchain-installation) to install version 4.8 manually.
 
 ### Snapdragon Flight
 
