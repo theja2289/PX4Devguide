@@ -42,18 +42,18 @@ SITL can be launched with and without debugger attached and with either jMAVSim 
 
 ```sh
 make posix_sitl_default jmavsim
-make posix_sitl_default jmavsim_gdb
-make posix_sitl_default jmavsim_lldb
+make posix_sitl_default jmavsim___gdb
+make posix_sitl_default jmavsim___lldb
 
 make posix_sitl_default gazebo
-make posix_sitl_default gazebo_gdb
-make posix_sitl_default gazebo_lldb
+make posix_sitl_default gazebo___gdb
+make posix_sitl_default gazebo___lldb
 
 make posix_sitl_lpe jmavsim
-make posix_sitl_lpe jmavsim_gdb
-make posix_sitl_lpe jmavsim_lldb
+make posix_sitl_lpe jmavsim___gdb
+make posix_sitl_lpe jmavsim___lldb
 
 make posix_sitl_lpe gazebo
-make posix_sitl_lpe gazebo_gdb
-make posix_sitl_lpe gazebo_lldb
+make posix_sitl_lpe gazebo___gdb
+make posix_sitl_lpe gazebo___lldb
 ```
