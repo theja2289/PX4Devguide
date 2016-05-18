@@ -37,6 +37,7 @@ This is the summary of the PX4 dev guide.
   * [Pixracer](hardware-pixracer.md)
 * Middleware and Architecture
   * [uORB Messaging](advanced-uorb.md)
+  * [Custom MAVLink Message](custom-mavlink-message.md)
   * [Daemons](architecture-daemon.md)
   * [Driver Framework](advanced-drivers.md)
 * Airframes
