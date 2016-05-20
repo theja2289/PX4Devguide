@@ -84,7 +84,7 @@ make posix_sitl_default gazebo_tailsitter
 
 <aside class="tip">
 Make sure you followed the [Installing Files and Code](http://dev.px4.io/starting-installing-mac.html) guide appropiate for your OS if you run into any errors or missing dependencies.
-<aside>
+</aside>
 
 This will bring up the PX4 shell:
 
