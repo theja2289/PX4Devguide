@@ -3,6 +3,9 @@
 ULog is the file format used for logging system data. The format is
 self-describing, i.e. it contains the format and message types that are logged.
 
+It can be used for logging device inputs (sensors, etc.), internal states (cpu
+load, attitude, etc.) and printf log messages.
+
 The format uses Little Endian for all binary types.
 
 ## Data types
@@ -128,7 +131,8 @@ struct message_info_s {
   used in the Data section.
   The data type is restricted to: `int32_t`, `float`.
 
-This section ends before the start of the first `message_add_logged_s` message.
+This section ends before the start of the first `message_add_logged_s` or
+`message_logging_s` message, whichever comes first.
 
 
 ### Data Section
@@ -145,8 +149,9 @@ struct message_add_logged_s {
 	char message_name[header.msg_size-hdr_size-3];
 };
 ```
-  `multi_id`: the same message format can have multiple instances, given by
-  `multi_id`. The default and first instance is 0.
+  `multi_id`: the same message format can have multiple instances, for example
+  if the system has two sensors of the same type.
+  The default and first instance must be 0.
   `msg_id`: unique id to match `message_data_s` data. The first use must set
   this to 0, then increase it. The same `msg_id` must not be used twice for
   different subscriptions, not even after unsubscribing.
@@ -174,8 +179,30 @@ struct message_data_s {
   logged binary message as defined by `message_format_s`. See above for special
   treatment of padding fields.
 
+- 'L': Logged string message, i.e. printf output.
+```
+struct message_logging_s {
+	struct message_header_s header;
+	uint8_t log_level;
+	uint64_t timestamp;
+	char message[header.msg_size-hdr_size-9]
+};
+```
+  `timestamp`: in microseconds, `log_level`: same as in the Linux kernel:
+
+| Name       | Level value  | Meaning                              |
+| ----       | -----------  | -------                              |
+| EMERG      |      '0'     | System is unusable                   |
+| ALERT      |      '1'     | Action must be taken immediately     |
+| CRIT       |      '2'     | Critical conditions                  |
+| ERR        |      '3'     | Error conditions                     |
+| WARNING    |      '4'     | Warning conditions                   |
+| NOTICE     |      '5'     | Normal but significant condition     |
+| INFO       |      '6'     | Informational                        |
+| DEBUG      |      '7'     | Debug-level messages                 |
+
 - 'S': synchronization message so that a reader can recover from a corrupt
-  message by search for the next sync message (not used currently).
+  message by searching for the next sync message (not used currently).
 ```
 struct message_sync_s {
 	struct message_header_s header;
@@ -185,7 +212,7 @@ struct message_sync_s {
 `sync_magic`: to be defined.
 
 - 'O': mark a dropout (lost logging messages) of a given duration in ms.
-  Dropouts can occur eg if the device is not fast enough.
+  Dropouts can occur e.g. if the device is not fast enough.
 ```
 struct message_dropout_s {
 	struct message_header_s header;
