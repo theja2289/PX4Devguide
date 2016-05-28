@@ -2,7 +2,30 @@
 
 The autopilots running PX4 support debugging via GDB or LLDB.
 
-## Running PX4 in the Debugger
+## Identifying large memory consumers
+
+The command below will list the largest static allocations:
+
+<div class="host-code"></div>
+
+```bash
+arm-none-eabi-nm --size-sort --print-size --radix=dec build_px4fmu-v2_default/src/firmware/nuttx/firmware_nuttx | grep " [bBdD] "
+```
+
+This NSH command provides the remaining free memory:
+
+```bash
+free
+```
+
+And the top command shows the stack usage per application:
+
+```
+top
+```
+
+
+## Sending MAVLink debug key / value pairs
 
 The code for this tutorial is available here:
 
@@ -18,7 +41,7 @@ All required to set up a debug publication is this code snippet. First add the h
 #include <uORB/topics/debug_key_value.h>
 ```
 
-Then advertise the debug value topic (one advertisement for different published names is sufficient). Put this in front of your main loop:
+Then advertise the debug value topic (one advertisement for different published names is sufficient).
 
 
 ## Debugging Hard Faults in NuttX
