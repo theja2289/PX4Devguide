@@ -124,6 +124,48 @@ Ready to fly.
 pxh>
 ```
 
+### Parrot Bebop
+
+<aside class="caution">
+Support for the Bebop is really early stage and should not be used.
+</aside>
+
+#### Build it
+<div class="host-code"></div>
+```sh
+cd Firmware
+make posix_bebop_default
+```
+
+Turn on your Bebop and connect your host machine with the Bebop's wifi. Then, press the power button
+four times to enable ADB and start the telnet daemon.
+
+<div class="host-code"></div>
+```sh
+make posix_bebop_default upload
+```
+
+<aside class="note">
+Note this will also copy mainapp.config file.
+</aside>
+
+#### Run it
+Connect to the Bebop's wifi and press the power button four times.
+
+<div class="host-code"></div>
+```sh
+telnet 192.168.42.1
+```
+Run mainapp with:
+<div class="host-code"></div>
+```sh
+mainapp
+```
+
+<aside class="note">
+You can also use adb shell to start the mainapp.
+</aside>
+
 ### QuRT / Snapdragon based boards
 
 #### Build it

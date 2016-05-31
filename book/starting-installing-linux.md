@@ -169,6 +169,18 @@ You will be required to enter your password for toolchain installation to comple
 
 You can pass a different path to the installer script if you wouldn't like to install the toolchain to the default location of ```/opt/rpi_toolchain```. Run ``` ./install_cross.sh <PATH>```. The installer will automatically configure required environment variables as well.
 
+### Parrot Bebop
+Developers working with the Parrot Bebop should install the RPi Linux Toolchain. Follow the
+description under [Raspberry Pi hardware](raspberry-pi-hardware).
+
+Next, install ADB.
+
+<div class="host-code"></div>
+
+``sh
+sudo apt-get install android-tools-adb -y`
+``
+
 ## Finishing Up
 
 Now continue to run the [first build](starting-building.md)!
