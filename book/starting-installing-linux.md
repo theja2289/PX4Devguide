@@ -71,27 +71,11 @@ If the resulting `gcc-arm-none-eabi` version produces build errors for PX4/Firmw
 
 #### Toolchain installation
 
-First add the official Ubuntu tablet team repository, then install ADB and the arm cross toolchain.
-
 <div class="host-code"></div>
 
 ```sh
-sudo add-apt-repository ppa:phablet-team/tools && sudo apt-get update -y
+sudo apt-get install android-tools-adb android-tools-fastboot fakechroot fakeroot -y
 ```
-
-<div class="host-code"></div>
-
-```sh
-sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf android-tools-adb android-tools-fastboot fakechroot fakeroot -y
-```
-
-The installation guide will come up, leave everything at default by just continuing to press enter.
-
-<aside class="tip">
-Developers working on Snapdragon Flight should request the Hexagon 7.2.10 Linux toolchain and the Hexagon 2.0 SDK for Linux from [here](https://developer.qualcomm.com/software/hexagon-dsp-sdk/tool-request).
-</aside>
-
-After downloading the Hexagon SDK and Hexagon Toolchain through the process above, clone this repository:
 
 <div class="host-code"></div>
 
@@ -99,23 +83,25 @@ After downloading the Hexagon SDK and Hexagon Toolchain through the process abov
 git clone https://github.com/ATLFlight/cross_toolchain.git
 ```
 
+Get the Hexagon SDK 3.0 from QDN: https://developer.qualcomm.com/download/hexagon/hexagon-sdk-v3-linux.bin
+
+This will require a QDN login. You will have to register if you do not already have an account.
+
 Now move the following files in the download folder of the cross toolchain as follows:
 
 <div class="host-code"></div>
 
 ```sh
-mv qualcomm_hexagon_sdk_2_0_eval.bin cross_toolchain/downloads
-mv Hexagon.LNX.7.2\ Installer-07210.1.tar cross_toolchain/downloads
-cd cross_toolchain/downloads
-tar -xf Hexagon.LNX.7.2\ Installer-07210.1.tar
+mv ~/Downloads/hexagon-sdk-v3-linux.bin cross_toolchain/downloads
 ```
 Install the toolchain and SDK like this:
 
 <div class="host-code"></div>
 
 ```sh
-cd ../
-./install.sh
+cd cross_toolchain
+./installv3.sh
+cd ..
 ```
 
 Follow the instructions to set up the development environment. If you accept all the install defaults you can at any time re-run the following to get the env setup. It will only install missing components.
@@ -125,9 +111,8 @@ After this the tools and SDK will have been installed to "$HOME/Qualcomm/...". A
 <div class="host-code"></div>
 
 ```sh
-export HEXAGON_SDK_ROOT="${HOME}/Qualcomm/Hexagon_SDK/2.0"
-export HEXAGON_TOOLS_ROOT="${HOME}/Qualcomm/HEXAGON_Tools/7.2.10/Tools"
-export HEXAGON_ARM_SYSROOT="${HOME}/Qualcomm/Hexagon_SDK/2.0/sysroot"
+export HEXAGON_SDK_ROOT="${HOME}/Qualcomm/Hexagon_SDK/3.0"
+export HEXAGON_TOOLS_ROOT="${HOME}/Qualcomm/HEXAGON_Tools/7.2.12/Tools"
 export PATH="${HEXAGON_SDK_ROOT}/gcc-linaro-arm-linux-gnueabihf-4.8-2013.08_linux/bin:$PATH"
 ```
 
@@ -138,21 +123,51 @@ Load the new configuration:
 ```sh
 source ~/.bashrc
 ```
+
+#### Sysroot Installation
+
+A sysroot is required to provide the libraries and header files needed to cross compile applications for the Snapdragon Flight applications processor.
+
+Login to the Intrinsyc support page and download: http://support.intrinsyc.com/attachments/download/483/Flight_qrlSDK.zip
+
+Copy/move the file to the cross_toolchain/download directory
+
+```
+cd cross_toolchain
+cp ~/Downloads/Flight_qrlSDK.zip downloads
+./qrlinux_sysroot.sh --clean
+```
+
+Append the following to your ~/.bashrc:
+
+```
+export HEXAGON_ARM_SYSROOT=${HOME}/Qualcomm/qrlinux_v1.0_sysroot
+```
+
+Load the new configuration:
+
+<div class="host-code"></div>
+
+```sh
+source ~/.bashrc
+```
+
+For more sysroot options see [Sysroot Installation](https://github.com/ATLFlight/cross_toolchain/blob/sdk3/README.md#sysroot-installation)
+
 #### Update ADSP firmware
 Before building, flashing and running code, you'll need to update the [ADSP firmware](advanced-snapdragon.html#updating-the-adsp-firmware).
 
 #### References
 
-There is a an external guide for installing the toolchain at
-[GettingStarted](https://github.com/ATLFlight/ATLFlightDocs/blob/master/GettingStarted.md). The
-[HelloWorld](https://github.com/ATLFlight/HelloWorld) and [DSPAL tests](https://github.com/ATLFlight/dspal/tree/master/test/dspal_tester) can be used to validate your tools installation and DSP image.
+There is a an external set of documentation for Snapdragon Flight toolchain and SW setup and verification:
+[ATLFlightDocs](https://github.com/ATLFlight/ATLFlightDocs/blob/master/README.md)
 
 Messages from the DSP can be viewed using mini-dm.
 
 <div class="host-code"></div>
 
 ```sh
-$HOME/Qualcomm/Hexagon_SDK/2.0/tools/mini-dm/Linux_Debug/mini-dm
+$HOME/Qualcomm/Hexagon_SDK/3.0/tools/debug/mini-dm/Linux_Debug/mini-dm
 ```
 
 ### Raspberry Pi hardware
